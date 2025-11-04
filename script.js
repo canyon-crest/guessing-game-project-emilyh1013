@@ -6,7 +6,8 @@ setInterval(function() {
 
 //global variables/constants
 let score, answer, level, start, fast;
-let sum, count = 0
+let tsum = 0
+let count = 0
 const levelArr = document.getElementsByName("level")
 const scoreArr = [];
 
@@ -75,14 +76,14 @@ function makeGuess(){
         updateScore();
         let end = new Date().getTime();
         let t = (end - start) / 1000;
-        sum += t;
+        tsum += t;
         count ++;
 
-        if (t < fast){
-            fast = t
+        if (fast === undefined || t < fast){
+        fast = t;
         }
 
-        stats.textContent = "Average time: " + (sum/count).toFixed(2) + " ; Fastest: " + fast.toFixed(2);
+        stats.textContent = "Average time: " + (tsum/count).toFixed(2) + " ; Fastest: " + fast.toFixed(2);
         msg.textContent+=" (" + t.toFixed(2) +")" ;
     }
 
