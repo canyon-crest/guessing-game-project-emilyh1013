@@ -1,8 +1,12 @@
 // time
 date.textContent = time();
+setInterval(function() {
+  date.textContent = time();
+}, 1000);
 
 //global variables/constants
-let score, answer, level;
+let score, answer, level, start, fast;
+let sum, count = 0
 const levelArr = document.getElementsByName("level")
 const scoreArr = [];
 
@@ -12,8 +16,26 @@ guessBtn.addEventListener("click", makeGuess);
 
 function time(){
     let d = new Date();
+    let D  = d.getDate();
+    let end;
+    const m = ["January","February","March","April", "May", "June","July", "August", "September", "October","November", "December"];
+    let M = m[d.getMonth()];
+    let h = d.getHours();
+    let min = d.getMinutes();
+    let s = d.getSeconds();
+    if(D%10 ==1 && D!= 11){
+        end = "st";
+    }    
+    else if(D%10 ==2 && D !=12){
+        end = "nd";
+    }
+    else if(D%10 == 3 && D!= 13){
+        end = "rd";
+    }
+    if (min < 10) min = "0" + min;
+    if (s < 10) s = "0" + s;
         //concatenate the date and time
-        let str = d.getMonth()+1 + "/" + d.getDate() + "/" + d.getFullYear()
+        let str = M + " " + D + end + ", " + d.getFullYear() +"; " + h + ":" + min + ":" + s;
         //update here
 
     return str;
@@ -32,6 +54,7 @@ function play(){
     msg.textContent = "Guess a number 1-" + level;
     guess.placeholder = answer;
     score = 0;
+    start = new Date().getTime();
 }
 function makeGuess(){
     let userGuess = parseInt(guess.value);
@@ -50,6 +73,17 @@ function makeGuess(){
         msg.textContent = "correct " + score + " tries.";
         reset();
         updateScore();
+        let end = new Date().getTime();
+        let t = (end - start) / 1000;
+        sum += t;
+        count ++;
+
+        if (t < fast){
+            fast = t
+        }
+
+        stats.textContent = "Average time: " + (sum/count).toFixed(2) + " ; Fastest: " + fast.toFixed(2);
+        msg.textContent+=" (" + t.toFixed(2) +")" ;
     }
 
 }
