@@ -14,6 +14,15 @@ const scoreArr = [];
 //event listeners
 playBtn.addEventListener("click",play);
 guessBtn.addEventListener("click", makeGuess);
+giveUpBtn.addEventListener("click", giveUp);
+
+function giveUp(){
+    score = level;
+    msg.textContent = "The answer was: " + answer + ", your score is: " + score;
+    reset();
+    updateScore();
+    getTime();
+}
 
 function time(){
     let d = new Date();
@@ -48,6 +57,7 @@ function play(){
     playBtn.disabled = true;
     guessBtn.disabled = false;
     guess.disabled = false;
+    giveUpBtn.disabled = false;
     for(let i=0; i<levelArr.length; i++){
         levelArr[i].disabled = true;
         if(levelArr[i].checked){
@@ -77,19 +87,22 @@ function makeGuess(){
         msg.textContent = "correct " + score + " tries.";
         reset();
         updateScore();
-        let end = new Date().getTime();
-        let t = (end - start) / 1000;
-        tsum += t;
-        count ++;
-
-        if (fast == undefined || t < fast){
-        fast = t;
-        }
-
-        stats.textContent = "Average time: " + (tsum/count).toFixed(2) + " ; Fastest: " + fast.toFixed(2);
-        msg.textContent+=" (" + t.toFixed(2) +")" ;
+        getTime();
     }
 
+}
+function getTime(){
+    let end = new Date().getTime();
+    let t = (end - start) / 1000;
+    tsum += t;
+    count ++;
+
+    if (fast == undefined || t < fast){
+    fast = t;
+    }
+
+    stats.textContent = "Average time: " + (tsum/count).toFixed(2) + " ; Fastest: " + fast.toFixed(2);
+    msg.textContent+=" (time: " + t.toFixed(2) +")" ;
 }
 function reset(){
     guessBtn.disabled = true;
@@ -97,6 +110,7 @@ function reset(){
     guess.placeholder = "";
     guess.disabled = true;
     playBtn.disabled = false;
+    giveUpBtn.disabled = true;
     for(let i=0; i< levelArr.length; i++){
         levelArr[i].disabled = false;
     }
