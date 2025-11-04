@@ -34,7 +34,7 @@ function time(){
         end = "rd";
     }
     else{
-        end = "";
+        end = "th";
     }
     if (min < 10) min = "0" + min;
     if (s < 10) s = "0" + s;
