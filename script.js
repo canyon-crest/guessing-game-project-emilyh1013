@@ -33,6 +33,9 @@ function time(){
     else if(D%10 == 3 && D!= 13){
         end = "rd";
     }
+    else{
+        end = "";
+    }
     if (min < 10) min = "0" + min;
     if (s < 10) s = "0" + s;
         //concatenate the date and time
@@ -79,7 +82,7 @@ function makeGuess(){
         tsum += t;
         count ++;
 
-        if (fast === undefined || t < fast){
+        if (fast == undefined || t < fast){
         fast = t;
         }
 
