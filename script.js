@@ -112,7 +112,7 @@ function makeGuess(){
         }
     }
     else{
-        msg.textContent = N + "; correct " + score + " tries.";
+        msg.textContent = N + "; correct in " + score + " tries/try.";
         if(score <= Math.ceil(Math.floor(Math.sqrt(level))/2)){
             msg.textContent += " Your score was good!"
         }
