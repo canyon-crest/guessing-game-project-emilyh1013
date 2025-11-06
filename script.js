@@ -18,6 +18,7 @@ giveUpBtn.addEventListener("click", giveUp);
 
 let N = prompt("what is your name?: ");
 N = N.charAt(0).toUpperCase() + N.slice(1).toLowerCase();
+msg.textContent += ", " + N;
 
 function giveUp(){
     score = level;
@@ -67,6 +68,13 @@ function play(){
             level = levelArr[i].value;
         }
     }
+    if(level == 500){
+        level = prompt("Enter a number greater than 1: ");
+        while ((level <= 1) || isNaN(level)){
+            level = prompt("Error. Enter a number greater than 1: ");
+        }
+    }
+
     answer = Math.floor(Math.random()*level)+1;
     msg.textContent = N + ", guess a number 1-" + level;
     score = 0;
