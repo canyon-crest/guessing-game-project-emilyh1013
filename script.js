@@ -16,9 +16,12 @@ playBtn.addEventListener("click",play);
 guessBtn.addEventListener("click", makeGuess);
 giveUpBtn.addEventListener("click", giveUp);
 
+let N = prompt("what is your name?: ");
+N = N.charAt(0).toUpperCase() + N.slice(1).toLowerCase();
+
 function giveUp(){
     score = level;
-    msg.textContent = "The answer was: " + answer + ", your score is: " + score;
+    msg.textContent = N + ", the answer was: " + answer + ", your score is: " + score;
     reset();
     updateScore();
     getTime();
@@ -65,26 +68,52 @@ function play(){
         }
     }
     answer = Math.floor(Math.random()*level)+1;
-    msg.textContent = "Guess a number 1-" + level;
-    guess.placeholder = answer;
+    msg.textContent = N + ", guess a number 1-" + level;
     score = 0;
     start = new Date().getTime();
 }
 function makeGuess(){
     let userGuess = parseInt(guess.value);
     if(isNaN(userGuess) || userGuess < 1 || userGuess > level){
-        msg.textContent= "invalid, guess a number!";
+        msg.textContent= N + "; invalid, guess a number!";
         return;
     }
     score++
     if(userGuess < answer){
-        msg.textContent = "too low, try again";
+        msg.textContent = N + "; too low, try again";
+        if(userGuess >= answer - Math.ceil(Math.floor(Math.sqrt(level))/2)){
+            msg.textContent += ". You are hot.";
+        }
+        else if(userGuess >= answer - Math.floor(Math.sqrt(level))){
+            msg.textContent += ". You are warm."
+        }
+        else{
+            msg.textContent += ". You are cold."
+        }
     }
     else if(userGuess > answer){
-        msg.textContent = "too high, try again";
+        msg.textContent = N + "; too high, try again";
+        if(userGuess <= answer + Math.ceil(Math.floor(Math.sqrt(level))/2)){
+            msg.textContent += ". You are hot.";
+        }
+        else if(userGuess <= answer + Math.floor(Math.sqrt(level))){
+            msg.textContent += ". You are warm."
+        }
+        else{
+            msg.textContent += ". You are cold."
+        }
     }
     else{
-        msg.textContent = "correct " + score + " tries.";
+        msg.textContent = N + "; correct " + score + " tries.";
+        if(score <= Math.ceil(Math.floor(Math.sqrt(level))/2)){
+            msg.textContent += " Your score was good!"
+        }
+        else if(score <= Math.floor(Math.sqrt(level))) {
+            msg.textContent += " Your score was okay."
+        }
+        else{
+            msg.textContent += " Your score was bad. "
+        }
         reset();
         updateScore();
         getTime();
@@ -102,12 +131,11 @@ function getTime(){
     }
 
     stats.textContent = "Average time: " + (tsum/count).toFixed(2) + " ; Fastest: " + fast.toFixed(2);
-    msg.textContent+=" (time: " + t.toFixed(2) +")" ;
+    msg.textContent+= " (time: " + t.toFixed(2) +")" ;
 }
 function reset(){
     guessBtn.disabled = true;
     guess.value = "";
-    guess.placeholder = "";
     guess.disabled = true;
     playBtn.disabled = false;
     giveUpBtn.disabled = true;
